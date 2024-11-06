@@ -12,9 +12,9 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "rules_gtsam",
-    url = "https://github.com/aharmat/rules_gtsam/archive/main.tar.gz",
-    sha256 = "1cf2f543d11c8d4fea77252299fbaf8297f35b454b2b502112be0ab193b39948",
-    strip_prefix = "rules_gtsam-main",
+    url = "https://github.com/nbuono/rules_gtsam/archive/rules_gtsam4.2.0.tar.gz",
+    sha256 = "[TODO after commit and tagging etc.]",
+    strip_prefix = "rules_gtsam4.2.0",
 )
 
 load("@rules_gtsam//bzl:repositories.bzl", "gtsam_repositories")
@@ -34,6 +34,13 @@ load("@rules_gtsam//bzl:gtsam.bzl", "gtsam_dllexport")
 gtsam_config()
 gtsam_dllexport(library_name="gtsam")
 gtsam_dllexport(library_name="gtsam_unstable")
+```
+
+
+C++17 is required. Add the following line to your .bazelrc file:
+
+```
+build --cxxopt='-std=c++17'
 ```
 
 To define a target that depends on GTSAM:

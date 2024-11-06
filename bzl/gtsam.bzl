@@ -46,7 +46,7 @@ def _gen_gtsam_config_impl(ctx):
             ("GTSAM_ALLOCATOR_TBB", False),
             ("GTSAM_ALLOCATOR_STL", False),
             ("GTSAM_THROW_CHEIRALITY_EXCEPTION", True),
-            ("GTSAM_ALLOW_DEPRECATED_SINCE_V41", True),
+            ("GTSAM_ALLOW_DEPRECATED_SINCE_V42", True),
             ("GTSAM_SUPPORT_NESTED_DISSECTION", False),
             ("GTSAM_TANGENT_PREINTEGRATION", True),
             ("GTSAM_USE_SYSTEM_METIS", False),
@@ -66,7 +66,7 @@ def _gen_gtsam_dllexport_impl(ctx):
     }
     substitutions.update(
         _cmakedefine_substitutions(
-            ("BUILD_SHARED_LIBS", True),
+            ("GTSAM_SHARED_LIBS", True),
         ),
     )
     ctx.actions.expand_template(
@@ -81,8 +81,8 @@ gen_gtsam_config = rule(
     implementation = _gen_gtsam_config_impl,
     attrs = {
         "version_major": attr.int(default = 4),
-        "version_minor": attr.int(default = 1),
-        "version_patch": attr.int(default = 1),
+        "version_minor": attr.int(default = 2),
+        "version_patch": attr.int(default = 0),
         "_template": attr.label(
             default = Label(_GTSAM_CONFIG_H_TEMPLATE),
             allow_single_file = True,
