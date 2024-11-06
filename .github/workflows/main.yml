@@ -6,19 +6,44 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
+  schedule:
+  - cron: '00 23 * * *'
 
 jobs:
   test-rules-gtsam:
-    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        build-config: [gcc, clang]
+        os: [ubuntu-22.04, ubuntu-24.04]
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
 
+    env:
+      cache_secret_file: cache_auth.json
+      cache_url: ${{ matrix.os == 'ubuntu-22.04' && 'https://storage.googleapis.com/robot-research-bazel-cache' || 'https://storage.googleapis.com/robot-research-noble-bazel-cache' }}
+      cache_auth: ${{ secrets.BAZEL_CACHE_BASE64 }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
 
-      - name: Set up Bazel
-        uses: philwo/setup-bazel@v1
+      - name: Fetch Secrets
+        run: |
+          echo ${{ env.cache_auth }} | base64 --decode > ${{ runner.temp }}/${{ env.cache_secret_file }}
+
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checking out  ${{ github.sha }}
+        uses: actions/checkout@v4
         with:
-          version: 5.0.0  # Specify the Bazel version you want
+          lfs: true
+
+      # - name: Set up Bazel
+      #   uses: philwo/setup-bazel@v1
+      #   with:
+      #     version: 5.0.0  # Specify the Bazel version you want
 
       - name: Set Commit SHA
         # Store the commit SHA that triggered the job in an environment variable
@@ -35,7 +60,7 @@ jobs:
           # Add your rules_gtsam repository as an http_archive with the current commit hash
           http_archive(
               name = \"rules_gtsam\",
-              urls = [\"https://github.com/your_username/rules_gtsam/archive/${COMMIT_SHA}.zip\"],
+              urls = [\"https://github.com/pizzaroll04/rules_gtsam/archive/${COMMIT_SHA}.zip\"],
               strip_prefix = \"rules_gtsam-${COMMIT_SHA}\",
           )
 
@@ -101,4 +126,4 @@ jobs:
       - name: Run Bazel Test
         working-directory: test_workspace
         run: |
-          bazel test //:test_gtsam --test_output=errors
+          bazel run //test_workspace:test_gtsam --test_output=errors
