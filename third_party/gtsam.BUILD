@@ -20,6 +20,7 @@ GTSAM_TEST_FILES = [
     "gtsam/sfm/tests/**",
     "gtsam/slam/tests/**",
     "gtsam/symbolic/tests/**",
+    "gtsam/hybrid/tests/**",
 ]
 
 cc_library(
@@ -42,6 +43,7 @@ cc_library(
             "gtsam/sfm/**/*.cpp",
             "gtsam/slam/**/*.cpp",
             "gtsam/symbolic/**/*.cpp",
+            "gtsam/hybrid/**/*.cpp",
         ],
         exclude = ["gtsam/slam/serialization.cpp"] + GTSAM_TEST_FILES,
     ),
@@ -65,6 +67,7 @@ cc_library(
             "gtsam/sfm/**/*.h",
             "gtsam/slam/**/*.h",
             "gtsam/symbolic/**/*.h",
+            "gtsam/hybrid/**/*.h",
         ],
         exclude = [
             "gtsam/slam/serialization.h",
