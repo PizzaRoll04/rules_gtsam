@@ -68,12 +68,6 @@ jobs:
           load(\"@rules_gtsam//bzl:init_deps.bzl\", \"gtsam_init_deps\")
           gtsam_init_deps()
 
-          load(\"@rules_gtsam//bzl:gtsam.bzl\", \"gtsam_config\")
-          load(\"@rules_gtsam//bzl:gtsam.bzl\", \"gtsam_dllexport\")
-          gtsam_config()
-          gtsam_dllexport(library_name="gtsam")
-          gtsam_dllexport(library_name="gtsam_unstable")
-
           # Load Google Test
           http_archive(
               name = \"com_google_googletest\",
@@ -86,6 +80,11 @@ jobs:
         run: |
           cd test_workspace
           echo '
+          load("@rules_gtsam//bzl:gtsam.bzl", "gtsam_config")
+          load("@rules_gtsam//bzl:gtsam.bzl", "gtsam_dllexport")
+          gtsam_config()
+          gtsam_dllexport(library_name="gtsam")
+          gtsam_dllexport(library_name="gtsam_unstable")
 
           cc_test(
               name = "test_gtsam",
