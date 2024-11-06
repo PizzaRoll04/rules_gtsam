@@ -11,7 +11,7 @@ on:
 
 jobs:
   test-rules-gtsam:
-    continue-on-error: true
+    continue-on-error: false
     strategy:
       matrix:
         build-config: [gcc, clang]
@@ -55,7 +55,7 @@ jobs:
           cd test_workspace
           echo 'workspace(name = "test_gtsam_workspace")' > WORKSPACE
           echo "
-          load(\"@bazel_tools//tools/build_defs/repo:http.bzl\", \"http_archive\")
+          # load(\"@bazel_tools//tools/build_defs/repo:http.bzl\", \"http_archive\")
 
           # Add your rules_gtsam repository as an http_archive with the current commit hash
           http_archive(
@@ -74,10 +74,6 @@ jobs:
               urls = [\"https://github.com/google/googletest/archive/release-1.11.0.zip\"],
               strip_prefix = \"googletest-release-1.11.0\",
           )
-
-          # Load any other dependencies like Boost, if required by GTSAM
-          load(\"@rules_boost//:boost/boost.bzl\", \"boost_deps\")
-          boost_deps()
           " >> WORKSPACE
 
       - name: Create BUILD file for testing
