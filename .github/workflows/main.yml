@@ -55,7 +55,7 @@ jobs:
           cd test_workspace
           echo 'workspace(name = "test_gtsam_workspace")' > WORKSPACE
           echo "
-          # load(\"@bazel_tools//tools/build_defs/repo:http.bzl\", \"http_archive\")
+          load(\"@bazel_tools//tools/build_defs/repo:http.bzl\", \"http_archive\")
 
           # Add your rules_gtsam repository as an http_archive with the current commit hash
           http_archive(
