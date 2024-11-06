@@ -66,7 +66,7 @@ def _gen_gtsam_dllexport_impl(ctx):
     }
     substitutions.update(
         _cmakedefine_substitutions(
-            ("GTSAM_SHARED_LIBS", True),
+            ("BUILD_SHARED_LIBS", True),
         ),
     )
     ctx.actions.expand_template(

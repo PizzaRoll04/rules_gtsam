@@ -12,7 +12,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "rules_gtsam",
-    url = "https://github.com/nbuono/rules_gtsam/archive/rules_gtsam4.2.0.tar.gz",
+    url = "https://github.com/pizzaroll04/rules_gtsam/archive/rules_gtsam4.2.0.tar.gz",
     sha256 = "[TODO after commit and tagging etc.]",
     strip_prefix = "rules_gtsam4.2.0",
 )
