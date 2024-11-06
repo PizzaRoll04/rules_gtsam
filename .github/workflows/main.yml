@@ -63,6 +63,10 @@ jobs:
               urls = [\"https://github.com/pizzaroll04/rules_gtsam/archive/${COMMIT_SHA}.zip\"],
               strip_prefix = \"rules_gtsam-${COMMIT_SHA}\",
           )
+          load("@rules_gtsam//bzl:init_deps.bzl", "gtsam_init_deps")
+          gtsam_init_deps()
+          load("@rules_gtsam//bzl:repositories.bzl", "gtsam_repositories")
+          gtsam_repositories()
 
           # Load Google Test
           http_archive(
@@ -80,24 +84,16 @@ jobs:
         run: |
           cd test_workspace
           echo '
-          load("@rules_gtsam//bzl:gtsam.bzl", "gtsam_import")
-
-          gtsam_import(
-              name = "test_gtsam_import",
-              srcs = ["test.cpp"],
-              deps = [
-                  "@boost//:boost",
-                  "@rules_gtsam//:gtsam",
-                  "@com_google_googletest//:gtest",
-                  "@com_google_googletest//:gtest_main",
-              ],
-          )
+          load("@rules_gtsam//bzl:init_deps.bzl", "gtsam_init_deps")
+          gtsam_init_deps()
+          load("@rules_gtsam//bzl:repositories.bzl", "gtsam_repositories")
+          gtsam_repositories()
 
           cc_test(
               name = "test_gtsam",
               srcs = ["test.cpp"],
               deps = [
-                  ":test_gtsam_import",
+                  "@gtsam//:gtsam",
                   "@com_google_googletest//:gtest",
                   "@com_google_googletest//:gtest_main",
               ],
