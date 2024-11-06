@@ -63,10 +63,10 @@ jobs:
               urls = [\"https://github.com/pizzaroll04/rules_gtsam/archive/${COMMIT_SHA}.zip\"],
               strip_prefix = \"rules_gtsam-${COMMIT_SHA}\",
           )
+          load(\"@rules_gtsam//bzl:repositories.bzl\", \"gtsam_repositories\")
+          gtsam_repositories()          
           load(\"@rules_gtsam//bzl:init_deps.bzl\", \"gtsam_init_deps\")
           gtsam_init_deps()
-          load(\"@rules_gtsam//bzl:repositories.bzl\", \"gtsam_repositories\")
-          gtsam_repositories()
 
           load(\"@rules_gtsam//bzl:gtsam.bzl\", \"gtsam_config\")
           load(\"@rules_gtsam//bzl:gtsam.bzl\", \"gtsam_dllexport\")
